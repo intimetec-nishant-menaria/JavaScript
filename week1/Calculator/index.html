@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="mainDiv">
+        <div class="screen" id="screen">
+
+        </div>
+        <div class="dialPad">
+            <button id="clearBtn" class="specialBtn" onclick="clearAll()">C</button>
+            <button class="specialBtn removeBtn" onclick="removeFromScreen()"><</button>
+            <button class="specialBtn normalBtn" onclick="addToScreen('%')">%</button>
+            <button class="specialBtn normalBtn" onclick="addToScreen('/')">/</button>
+            <button class="normalBtn normalBtn" onclick="addToScreen('7')">7</button>
+            <button class="normalBtn" onclick="addToScreen('8')">8</button>
+            <button class="normalBtn" onclick="addToScreen('9')">9</button>
+            <button class="specialBtn normalBtn" onclick="addToScreen('*')">X</button>
+            <button class="normalBtn" onclick="addToScreen('4')">4</button>
+            <button class="normalBtn" onclick="addToScreen('5')">5</button>
+            <button class="normalBtn" onclick="addToScreen('6')">6</button>
+            <button class="specialBtn normalBtn" onclick="addToScreen('-')">-</button>
+            <button class="normalBtn" onclick="addToScreen('1')">1</button>
+            <button class="normalBtn" onclick="addToScreen('2')">2</button>
+            <button class="normalBtn" onclick="addToScreen('3')">3</button>
+            <button class="specialBtn normalBtn" onclick="addToScreen('+')">+</button>
+            <button class="normalBtn" onclick="addToScreen('.')">.</button>
+            <button class="normalBtn" onclick="addToScreen('0')">0</button>
+            <button class="specialBtn lastBtn" id="equalsTo" onclick="equalsTo()" >=</button>
+        </div>
+
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
