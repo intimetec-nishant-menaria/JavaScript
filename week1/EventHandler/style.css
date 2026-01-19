@@ -1,0 +1,35 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.maindiv{
+    width: 50vw;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+}
+
+.btn{
+    margin: 0px 2px;
+    width: 19.5%;
+    height: 100%;
+    border-radius: 5%;
+    font-size: large;
+    font-family: sans-serif;
+}
+
+.btn:nth-child(even){
+    background-color: black;
+    color: white;
+    width: 15%;
+}
