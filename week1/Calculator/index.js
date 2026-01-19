@@ -37,7 +37,7 @@ function evaluteExpression(expression) {
   let operand = new Array();
   let i=0;
   while( i < expression.length ) {
-    if(!isNaN( expression[i])){
+    if(Number(expression[i])>=0 && Number(expression[i])<=9 ){
         let number = "";
         while( i < expression.length && (!isNaN( expression[i]) || expression[i]==".") ){
             number+=expression[i++];
