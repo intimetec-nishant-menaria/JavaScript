@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>register</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+    <div class="main">
+        <form class="login">
+            <h1>Welcome To quiz App</h1>
+            <h2>Register</h2>
+            <div class="fullName">
+                <input type="text" name="FirstName" placeholder="FirstName" id="FirstName" required>
+                <input type="text" name="LastName" placeholder="LastName" id="LastName" required>
+            </div>
+            <div class="email-pass">
+                <input type="email" placeholder="Email"  id="email" required>
+                <input type="password" name="password" id="password" placeholder="password" required>
+            </div>
+            <div class="buttons">
+                <div><button onclick="redirectToLogin()">Log In</button></div>
+                <div><button id="registerBtn">Register User</button></div>
+            </div>
+        </form>
+    </div>
+    <script src="./index.js"></script>
+</body>
+</html>
