@@ -1,14 +1,18 @@
 const Users = JSON.parse(localStorage.getItem("users")) || [];
 
 function redirectToLogin(){
-    location.href = "/week-2/Pages/login/login.html" ;
+    location.href = "../login/login.html" ;
 }
 
 function isUserLogin(){
-    const user = localStorage.getItem("user");
+    const user = JSON.parse(localStorage.getItem("user"));
 
     if(user){
-        location.href = "/week-2/index.html";
+        if(user.role === "admin"){
+            location.href = "../admin_Dashboard/adminDashboard.html";
+        }else{
+            location.href = "../student_Dashboard/studentDashboard.html";
+        }
     }
 }
 
@@ -30,15 +34,16 @@ registerBtn.addEventListener("click",(e)=>{
     }
 
     const user = {
-        Name : firstName + " " + lastName,
+        username : firstName + " " + lastName,
         email : email,
-        password : password
+        password : password,
+        role : "student"
     }
 
     Users.push(user);
     localStorage.setItem("users",JSON.stringify(Users));
 
-    location.href = "/week-2/Pages/login/login.html";
+    location.href = "../login/login.html";
 })
 
 

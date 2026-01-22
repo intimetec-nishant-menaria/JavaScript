@@ -5,9 +5,13 @@ const loginBtn = document.getElementById("loginBtn");
 
 
 function isUserLogin(){
-    const user = localStorage.getItem("user");
+    const user = JSON.parse(localStorage.getItem("user"));
     if(user){
-        location.href = "/week-2/index.html";
+         if(user.role === "admin"){
+            location.href = "../admin_Dashboard/adminDashboard.html";
+        }else{
+            location.href = "../student_Dashboard/studentDashboard.html";
+        }
     }
 }
 
@@ -21,18 +25,25 @@ loginBtn.addEventListener("click",(e)=>{
             if(user.password === password){
                 console.log("login Successfully");
                 localStorage.setItem("user", JSON.stringify(user));
+                if(user.role === "admin"){
+                    location.href = "../admin_Dashboard/adminDashboard.html";
+                }else{
+                    location.href = "../student_Dashboard/studentDashboard.html";
+                }
+                return;
             }else{
                 alert("Invalid credentials");
             }
         }
     }
 
-    // alert("No user is registered with given email");
+    alert("No user is registered with given email");
 
 })
 
 registerBtn.addEventListener("click",(e)=>{
-    location.href = "/week-2/Pages/register/register.html";
+    e.preventDefault();
+    location.href = "../register/register.html";
 })
 
 isUserLogin();
