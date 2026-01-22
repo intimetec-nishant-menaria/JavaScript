@@ -42,53 +42,50 @@ async function loadQuestions(){
 }
 
 function loadQuestion(){
+    if(currentQuestion === 0){
+        prevBtn.disabled = true;
+        prevBtn.style.opacity = 0.5;
+    }else{
+        prevBtn.disabled = false;
+        prevBtn.style.opacity = 1;
+    }
+
+    if(currentQuestion === (questionsList.length-1)){
+        nextBtn.style.display = "none";
+        submitBtn.style.display = "block";
+    }else{
+        submitBtn.style.display = "none";
+        nextBtn.style.display = "block";
+    }
 
     question.textContent = questionsList[currentQuestion].question ;
     for(let i = 0 ; i < optionBtns.length ; i++){
         optionBtns[i].textContent = questionsList[currentQuestion].options[i];
-        // if(answerSheet.length > currentQuestion){
-        //     if(answerSheet[currentQuestion] === questionsList[currentQuestion].options[i]){
-        //         options[i].classList.add("btnActivate");
-        //     }
-        // }
+        optionBtns[i].classList.remove("btnActivate");
+        if(answerSheet.length > currentQuestion){
+            if(answerSheet[currentQuestion] === questionsList[currentQuestion].options[i]){
+                optionBtns[i].classList.add("btnActivate");
+            }
+        }
     }
+    localStorage.setItem("Cquestion",currentQuestion);
 }
 
 nextBtn.addEventListener("click",(e)=>{
     e.preventDefault();
     currentQuestion++;
-    if(currentQuestion === (questionsList.length-1)){
-        nextBtn.style.display = "none";
-        submitBtn.style.display = "block";
-    }
-
-    if(currentQuestion > 0){
-        prevBtn.disabled = false;
-        prevBtn.style.opacity = 1;
-    }
     optionBtns.forEach( btn => {
         btn.classList.remove("btnActivate");
     });
     loadQuestion();
     localStorage.setItem("answers",JSON.stringify(answerSheet));
-    localStorage.setItem("Cquestion",currentQuestion);
 })
 
 prevBtn.addEventListener("click",(e)=>{
     e.preventDefault();
     currentQuestion--;
-    if(currentQuestion === 0){
-        prevBtn.disabled = true;
-        prevBtn.style.opacity = 0.5;
-    }
-    if(currentQuestion === (questionsList.length - 2)){
-        submitBtn.style.display = "none";
-        nextBtn.style.display = "block";
-    }
-    
     loadQuestion();
     localStorage.setItem("answers",JSON.stringify(answerSheet));
-    localStorage.setItem("Cquestion",currentQuestion);
 })
 
 submitBtn.addEventListener("click",(e)=>{
