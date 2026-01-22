@@ -46,11 +46,11 @@ function loadQuestion(){
     question.textContent = questionsList[currentQuestion].question ;
     for(let i = 0 ; i < optionBtns.length ; i++){
         optionBtns[i].textContent = questionsList[currentQuestion].options[i];
-        if(answerSheet.length > currentQuestion){
-            if(answerSheet[currentQuestion] === questionsList[currentQuestion].options[i]){
-                options[i].classList.add("btnActivate");
-            }
-        }
+        // if(answerSheet.length > currentQuestion){
+        //     if(answerSheet[currentQuestion] === questionsList[currentQuestion].options[i]){
+        //         options[i].classList.add("btnActivate");
+        //     }
+        // }
     }
 }
 
