@@ -8,11 +8,20 @@ const submitBtn = document.getElementById("submitBtn");
 const nextBtn = document.getElementById("nextbtn");
 const prevBtn = document.getElementById("previousBtn");
 
+const questionNUmber = document.querySelector(".questionNumber");
 
 function isUserLogin(){
     const user = JSON.parse(localStorage.getItem("user"));
     if(!user){
         location.href = "../login/login.html";
+    }
+}
+
+function shuffelQuestions(questionsList){
+
+    for(let i = 0 ; i<questionsList.length ; i++ ){
+        let j = (Math.floor(Math.random() * (i+1))) % questionsList.length;
+        [ questionsList[i] , questionsList[j] ] = [ questionsList[j] , questionsList[i] ];
     }
 }
 
@@ -38,6 +47,7 @@ async function loadQuestions(){
     localStorage.setItem("questions", JSON.stringify(result));
     localStorage.setItem("Cquestion","0");
     questionsList = result;
+    shuffelQuestions(questionsList);
     loadQuestion();
 }
 
@@ -57,6 +67,9 @@ function loadQuestion(){
         submitBtn.style.display = "none";
         nextBtn.style.display = "block";
     }
+
+    questionNUmber.textContent = `${currentQuestion + 1 }/10`;
+
 
     question.textContent = questionsList[currentQuestion].question ;
     for(let i = 0 ; i < optionBtns.length ; i++){
@@ -92,12 +105,16 @@ submitBtn.addEventListener("click",(e)=>{
     e.preventDefault();
     
     if(confirm("Are you sure you want to Submit ?")){
-        let totalMarks = 0 ;
+        let correctAnswers = 0;
+        let wrongAnswers = 0;
 
         const answers = JSON.parse(localStorage.getItem("answers"));
         for(let i = 0 ; i < answers.length ; i++){
-            if(answers[i] === questionsList[i].options[questionsList[i].correctAnswerIndex])
-                    totalMarks++;
+            if(answers[i] === questionsList[i].options[questionsList[i].correctAnswerIndex]){
+                correctAnswers++;
+            }else if( answers[i]!== null ){
+                wrongAnswers++;
+            }
         }
 
         localStorage.removeItem("answers");
@@ -105,9 +122,10 @@ submitBtn.addEventListener("click",(e)=>{
         localStorage.removeItem("Cquestion");
 
         const user = JSON.parse(localStorage.getItem("user"));
-        user.previousMarks = totalMarks;
+        user.correct = correctAnswers;
+        user.wrong = wrongAnswers;
+        user.questionLength = questionsList.length;
 
-        console.log(user);
         localStorage.setItem("user",JSON.stringify(user));
 
         const Users = JSON.parse(localStorage.getItem("users"));
@@ -119,8 +137,12 @@ submitBtn.addEventListener("click",(e)=>{
                 break;
             }
         }
-
-        location.href = "../student_Dashboard/studentDashboard.html";
+        
+        if(user.role === "student"){
+            location.href = "../student_Dashboard/studentDashboard.html";
+        }else{
+            location.href = "../admin_Dashboard/adminDashboard.html";
+        }
     }
 })
 

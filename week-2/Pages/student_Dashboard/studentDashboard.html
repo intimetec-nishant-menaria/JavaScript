@@ -12,8 +12,11 @@
     </div>
     <button id="logoutBtn">LogOut</button>
     <div class="main">
-        <div style="display: flex;align-items: center;">
-            Previous Marks : <p id="previousMarks"></p> 
+        <div class="studentDetails" style="display: flex;align-items: center;flex-direction: column;">
+            <section style="color:gold"> Question Not Attempted:<p id="questionsNotAttempted"> </p></section>
+            <section style="color:green">Correctly Attempted: <p id="correctlyAttempted"></p></section>
+            <section style="color:red"> Wrong  Attempted: <p id="wrongAttempted"></p></section>
+            <section> Total  Marks: <p id="totalMarks"></p></section>
         </div>
         <div>
             <button id="quizBtn">

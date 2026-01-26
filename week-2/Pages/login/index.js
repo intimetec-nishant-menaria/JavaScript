@@ -1,4 +1,5 @@
 const Users = JSON.parse(localStorage.getItem("users")) || [];
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ ;
 
 const registerBtn = document.getElementById("RegisterBtn");
 const loginBtn = document.getElementById("loginBtn");
@@ -17,8 +18,13 @@ function isUserLogin(){
 
 
 loginBtn.addEventListener("click",(e)=>{
-    const email = document.getElementById("email").value;
+    const email = String(document.getElementById("email").value);
     const password = document.getElementById("password").value;
+
+    if( !emailRegex.test(email) ){
+        alert("Please Enter a Valid Email.");
+        return;
+    }
 
     for(let user of Users){
         if(user.email === email){

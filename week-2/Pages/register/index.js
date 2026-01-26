@@ -1,4 +1,6 @@
 const Users = JSON.parse(localStorage.getItem("users")) || [];
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ ;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
 function redirectToLogin(){
     location.href = "../login/login.html" ;
@@ -23,8 +25,25 @@ registerBtn.addEventListener("click",(e)=>{
 
     const firstName = document.getElementById("FirstName").value;
     const lastName =document.getElementById("LastName").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const email = String(document.getElementById("email").value);
+    const password = String(document.getElementById("password").value);
+
+    
+    if( !emailRegex.test(email) ){
+        alert("Please Enter a Valid Email.");
+        return;
+    }
+    if( !passwordRegex.test(password)){
+        alert(`Please enter valid password
+            Rules:
+                1) At least 8 characters
+                2) At least 1 lowercase
+                3) At least 1 uppercase
+                4) At least 1 number
+                5) At least 1 special character`
+        );
+        return ;
+    }
 
     for(let user of Users){
         if(user.email === email){

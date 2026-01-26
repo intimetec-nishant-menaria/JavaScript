@@ -27,9 +27,16 @@ function displayPreviousMarks(){
 
     islogIn();
 
-    const marks = document.getElementById("previousMarks");
+    const questionNotAttempted = document.getElementById("questionsNotAttempted");
+    const correctAttempted = document.getElementById("correctlyAttempted");
+    const wrongAttempted = document.getElementById("wrongAttempted");
+    const totalMarks = document.getElementById("totalMarks");
 
-    marks.innerText = user.previousMarks ?? "Test Not Attempted yet"
+    console.log(user.questionLength);
+    questionNotAttempted.innerText = user.questionLength - (user.correct + user.wrong ) || "Test Not Attempted yet";
+    correctAttempted.innerText = user.correct ?? "Test Not Attempted yet";
+    wrongAttempted.innerText = user.wrong ?? "Test Not Attempted yet";
+    totalMarks.innerText = user.correct ?? "Test Not Attempted yet";
 }
 
 displayPreviousMarks();
