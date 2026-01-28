@@ -1,0 +1,82 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  background-image: url("/QuizApp/assets/images/bg-image.jpg");
+  background-size: cover;
+  font-family: sans-serif;
+}
+.main {
+  width: 40vw;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  border: 2px solid transparent;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+.main > form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70%;
+  height: 100%;
+  text-align: center;
+}
+
+.login > input ::placeholder {
+  color: white;
+}
+.login input {
+  margin-top: 10px;
+  width: 95%;
+  height: 30px;
+  border: 2px solid black;
+  background-color: transparent;
+  opacity: 0.75;
+  border-radius: 15px;
+  padding-left: 10px;
+}
+
+.login button:hover {
+  background-color: #0076b6cc;
+}
+
+.fullName {
+  display: flex;
+}
+
+.fullName input {
+  margin: 2px;
+  width: 45%;
+}
+.buttons {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+.buttons div {
+  width: 49%;
+}
+.buttons button {
+  width: 100%;
+  margin-top: 10px;
+  height: 40px;
+  border-radius: 15px;
+  border: 2px solid black;
+  background-color: #0077b6;
+  color: black;
+  font-size: medium;
+  font-weight: bold;
+}
+.buttons button:hover {
+  cursor: pointer;
+}
