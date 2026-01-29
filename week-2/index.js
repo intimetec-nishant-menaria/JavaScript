@@ -12,22 +12,32 @@ function isUserLogin(){
     }
 }
 
-async function loadDefaultUsers(){
+// async function loadDefaultUsers(){
 
-    if(localStorage.getItem("users"))   return;
+//     function inner(){
+        
+//     }
 
-    try{
-        const response = await fetch("./data/users.json");
-        const result = await response.json();
+//     if(localStorage.getItem("users"))   return;
 
-        localStorage.setItem("users" , JSON.stringify(result));
-    }catch(error){
-        console.log(error);
-    }finally{
-        console.log("Default Users Loaded successfully");
-    }
-}
-loadDefaultUsers();
+//     try{
+//         // const response = await fetch("./data/users.json");
+//         // const result = await response.json();
+
+//         // localStorage.setItem("users" , JSON.stringify(result));
+
+//         fetch("./data/users.json").then(response=>{
+//             return response.json();
+//         }).then(result=>{
+//             localStorage.setItem("users", JSON.stringify(result));
+//         })
+//     }catch(error){
+//         console.log(error);
+//     }finally{
+//         console.log("Default Users Loaded successfully");
+//     }
+// }
+// loadDefaultUsers();
 
 isUserLogin();
 
