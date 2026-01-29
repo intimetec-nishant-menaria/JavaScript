@@ -48,5 +48,6 @@ registerBtn === null || registerBtn === void 0 ? void 0 : registerBtn.addEventLi
     };
     Users.push(newUser);
     setData("users", Users);
+    location.href = "/QuizApp/HTML Pages/login.html";
 });
 //# sourceMappingURL=register.js.map

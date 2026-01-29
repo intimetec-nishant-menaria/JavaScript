@@ -64,4 +64,5 @@ registerBtn?.addEventListener("click",(e)=>{
 
     Users.push(newUser);
     setData("users",Users);
+    location.href = "/QuizApp/HTML Pages/login.html"
 })

@@ -21,19 +21,33 @@ loginBtn === null || loginBtn === void 0 ? void 0 : loginBtn.addEventListener("c
         return;
     }
     const Users = getData("users");
-    if (Users === null) {
-        alert("something went wrong");
-        return;
-    }
-    for (let user of Users) {
-        if (user.email === email) {
-            if (user.password === password) {
-                setData("user", user);
-                isUserLogin();
-                return;
+    if (Users) {
+        for (let user of Users) {
+            if (user.email === email) {
+                if (user.password === password) {
+                    setData("user", user);
+                    isUserLogin();
+                    return;
+                }
             }
         }
     }
-    alert(`No user registered with given Email`);
+    fetch("/QuizApp/assets/data/users.json").then(response => {
+        return response.json();
+    }).then((admins) => {
+        for (let admin of admins) {
+            if (admin.email === email) {
+                if (admin.password === password) {
+                    setData("user", admin);
+                    isUserLogin();
+                    return;
+                }
+                else {
+                    alert("Invalid email or password");
+                    return;
+                }
+            }
+        }
+    });
 });
 //# sourceMappingURL=login.js.map

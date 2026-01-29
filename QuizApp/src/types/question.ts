@@ -5,3 +5,8 @@ export interface Question{
     options : string[],
     correctAnswerIndex: number
 }
+
+export interface answer{
+    questionIndex : number,
+    userAnswerIndex : number
+}

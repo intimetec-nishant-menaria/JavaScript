@@ -1,5 +1,6 @@
 import { isUserLogin } from "../auth/auth.js";
-import { removeData } from "../utils/localStorage.js";
+import type { User } from "../types/user.js";
+import { getData, removeData } from "../utils/localStorage.js";
 
 const logoutBtn = document.getElementById("logoutBtn") as HTMLButtonElement ;
 const quizBtn = document.getElementById("quizBtn") as HTMLButtonElement ;
@@ -15,3 +16,26 @@ quizBtn?.addEventListener("click",()=>{
     }
     location.href = "/QuizApp/HTML Pages/quizPage.html";
 });
+
+
+function displayResult(){
+
+    const user = getData<User>("user");
+
+    if(!user){
+        isUserLogin();
+        return;
+    }
+
+    const notAttempted = document.querySelector("#questionsNotAttempted") as HTMLElement;
+    const correct = document.querySelector("#correctlyAttempted") as HTMLElement;
+    const wrong = document.querySelector('#wrongAttempted') as HTMLElement;
+    const totalMarks = document.querySelector("#totalMarks") as HTMLElement;
+
+    notAttempted.textContent = user?.result ? `${user.result?.numberOfQuestions! - user.result?.correct! - user?.result?.wrong!} ` : "Test Not Attempted Yet" ;
+    correct.textContent = user?.result ? `${user?.result?.correct}` : "Test Not Attempted Yet" ;
+    wrong.textContent = user?.result ?  `${user?.result?.wrong}` : "Test Not Attempted Yet" ;
+    totalMarks.textContent = user?.result ?  `${user?.result?.correct}` : "Test Not Attempted Yet" ;
+}
+
+displayResult();

@@ -1,14 +1,16 @@
-import type { Question } from "../types/question.js";
-import { getData, setData } from "../utils/localStorage.js";
+import { isUserLogin } from "../auth/auth.js";
+import type { answer, Question } from "../types/question.js";
+import type { User } from "../types/user.js";
+import { getData, removeData, setData } from "../utils/localStorage.js";
 
 let questions = getData<Question[]>("questions");
-const optionBtns = document.querySelectorAll(".options") as NodeListOf<HTMLButtonElement>;
+const optionBtns = document.querySelectorAll<HTMLButtonElement>(".options button");
 const optionsDiv = document.querySelector(".options") as HTMLElement;
 const prevBtn = document.querySelector("#previousBtn") as HTMLButtonElement;
-const nextBtn = document.querySelector("#nextBtn") as HTMLButtonElement;
+const nextBtn = document.querySelector("#nextbtn") as HTMLButtonElement;
 const submitBtn = document.querySelector("#submitBtn") as HTMLButtonElement;
-let currentQuesiton = 0;
-let answers:string[] = [];
+let currentQuesiton = getData<number>("currentQuestion") ?? 0;
+let answers: answer[] = getData<answer[]>("answers") ?? [];
 
 async function fetchQuestions(){
 
@@ -18,13 +20,11 @@ async function fetchQuestions(){
             questions = await response.json() as Question[]; 
             shuffleQuestions();
             setData("questions", questions);
-            displayQuestion();
         }catch(error){
             console.log(error);
         }
     }
-
-
+    displayQuestion();
 }
 fetchQuestions();
 
@@ -43,13 +43,21 @@ function shuffleQuestions(){
 optionsDiv?.addEventListener("click",(e)=>{
     e.preventDefault();
 
-    const target = e.target as HTMLButtonElement;
+    const Target = e.target as HTMLButtonElement;
+    if(Target.tagName !== "BUTTON"){
+        return;
+    }
     optionBtns.forEach( btn=>{
         btn.classList.remove("btnActivate");
     })    
 
-    answers[currentQuesiton] = target.textContent;
-    target.classList.add("btnActivate");
+    const newAnswerObj : answer= {
+        questionIndex : currentQuesiton,
+        userAnswerIndex : Number(Target.dataset.option)
+    }
+    answers.push(newAnswerObj)
+    setData<answer[]>( "answers" , answers );
+    Target.classList.add("btnActivate");
     
 })
 
@@ -77,22 +85,22 @@ function displayQuestion(){
     const questionNumber = document.querySelector(".questionNumber") as HTMLElement;
     questionNumber.textContent = `${currentQuesiton + 1} / ${questions?.length}`;
 
-    const question = document.querySelector("question") as HTMLElement;
+    const question = document.querySelector(".question") as HTMLElement;
     if(questions === null){
         alert("something went wrong");
         return;
     }
     question.textContent = questions[currentQuesiton]?.question ?? "";
 
-
     for(let i = 0 ; i<optionBtns?.length ;i++){
         const btn = optionBtns[i]
         btn?.classList.remove("btnActivate");
-        if(btn) 
+        if(btn){
             btn.textContent = questions[currentQuesiton]?.options[i] ?? "";
+        }
 
         if(answers.length > currentQuesiton){
-            if(answers[currentQuesiton] === btn?.textContent){
+            if(answers[currentQuesiton] === questions[currentQuesiton]?.options[i]){
                 btn?.classList.add("btnActivate");
             }
         }
@@ -111,6 +119,65 @@ nextBtn?.addEventListener("click",(e)=>{
     e.preventDefault();
     currentQuesiton++;
     displayQuestion();
+})
+
+
+submitBtn?.addEventListener("click",(e)=>{
+    e.preventDefault();
+    console.log(answers);
+    if(!confirm("you want to submit your test ?")){
+        return;
+    }
+
+    if(!questions){
+        alert("somthing went wrong in submit");
+        return;
+    }
+
+    let correct = 0;
+    let wrong = 0;
+    for(let i = 0 ; i< answers?.length ; i++){
+        if(answers[i]?.userAnswerIndex === questions[i]?.correctAnswerIndex){
+            correct++;
+        }else{
+            wrong++;
+        }
+    }
+
+    const user = getData<User>("user");
+    if(!user){
+        isUserLogin();
+        return;
+    }
+
+    user.result = {
+        correct : correct,
+        wrong : wrong,
+        numberOfQuestions : questions.length
+    }
+
+    const Users = getData<User[]>("users");
+    if(!Users)
+        return;
+
+    for(let i = 0 ; i < Users?.length ; i++ ){
+        if(Users[i]?.email === user.email){
+            Users[i] = user;
+            break;
+        }
+    }
+
+    setData<User[]>("users",Users);
+    setData<User>("user",user);
+    removeData("questions");
+    removeData("currentQuestion");
+    removeData("answers");
+    
+    if(user.role === "student"){
+        location.href = "/QuizApp/HTML Pages/studentDashBoard.html"
+    }else{
+        location.href = "/QuizApp/HTML Pages/adminDashBoard.html"
+    }
 })
 
 
