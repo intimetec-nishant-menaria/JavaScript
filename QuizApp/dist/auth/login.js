@@ -16,6 +16,10 @@ loginBtn === null || loginBtn === void 0 ? void 0 : loginBtn.addEventListener("c
         return;
     }
     const password = document.getElementById("password").value;
+    if (!password.trim()) {
+        alert("passwords is required");
+        return;
+    }
     const Users = getData("users");
     if (Users === null) {
         alert("something went wrong");

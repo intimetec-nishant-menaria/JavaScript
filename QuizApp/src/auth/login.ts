@@ -24,6 +24,11 @@ loginBtn?.addEventListener("click",(e)=>{
 
     const password  = (document.getElementById("password") as HTMLInputElement ).value;
 
+    if( !password.trim() ){
+        alert("passwords is required");
+        return
+    }
+
     const Users = getData<User[]>("users");
 
     if(Users === null){
