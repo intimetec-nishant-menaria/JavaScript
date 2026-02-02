@@ -1,0 +1,161 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center ;
+    align-items: center;
+}
+
+
+.heading{
+    height: 20vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    font-family: sans-serif;
+}
+
+.mainDiv{
+    min-height: 70vh;
+    max-height: fit-content;
+    width: 80vw;
+    border: 2px solid black;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* .studenth1{
+    height: 20%;
+} */
+
+.table-container {
+    overflow-x: auto;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 2px solid black;
+}
+
+thead {
+    background-color: #2c3e50;
+    width: 20%;
+}
+
+thead th {
+    color: #ffffff;
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+    width: 175px;
+}
+
+tbody td {
+    padding: 12px;
+    /* border-bottom: 1px solid #ddd; */
+    font-size: 14px;
+    color: #333;
+    border: 2px solid black;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.active {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.inactive {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+#logoutBtn{
+    position: absolute;
+    right : 2%;
+    top : 5%;
+    width: 100px;
+    height: 35px;
+    border-radius: 10px;
+    border: 1px solid black;
+    background-color: #e94330;
+    font-size: medium;
+    font-weight: bold;
+}
+
+#logoutBtn:hover{
+    cursor: pointer;
+    background-color: #e74d3cef;
+}
+
+#startTestBtn{
+    height: 50px;
+    width: 150px;
+    margin-bottom: 10px;
+    position: relative;
+    right: 34%;
+    top: 10%;
+    border-radius: 10px;
+    background-color: #27ae60;
+    font-weight: bold;
+}
+
+#startTestBtn:hover{
+    cursor: pointer;
+}
+
+.reportBtn{
+    height: 30px;
+    width: 100px;
+    background-color: #27ae60;
+    border-radius: 10px;
+    font-weight: bolder;
+    margin-left: 50px;
+    margin-top: 5px;
+}
+
+.reportBtn:hover{
+    cursor: pointer;
+}
+
+.reportDiv{
+    width: 60%;
+    height: 50%;
+    border: 2px solid black; 
+    position: absolute;   
+    display: hidden;
+    flex-direction: column;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.closeBtn{
+    align-self: flex-end;
+    height: 5%;
+    border: 2px solid black;
+    width: 10%;
+    border-radius: 5px ;
+    text-align: center;
+    font-weight: bolder;
+}
+
+.closeBtn:hover{
+    background-color: gainsboro;
+    cursor: pointer;
+}
+
+#reportContent{
+    height: 80%;
+}
+
+.showReport{
+    display: block;
+}
+
