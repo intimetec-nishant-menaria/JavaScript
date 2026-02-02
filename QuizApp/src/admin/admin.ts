@@ -1,4 +1,4 @@
-import { isUserLogin } from "../auth/auth.js";
+import { ensureUserLoggedIn } from "../auth/auth.js";
 import type { User } from "../types/user.js";
 import { getData, removeData } from "../utils/localStorage.js";
 
@@ -8,7 +8,7 @@ const tableBody = document.querySelector("#tableBody") as HTMLElement;
 
 logoutBtn?.addEventListener("click",()=>{
     removeData("user");
-    isUserLogin();
+    ensureUserLoggedIn();
 })
 
 testBtn?.addEventListener("click" , (e)=>{
@@ -41,7 +41,7 @@ function displayUsers(){
 
         const btn = document.createElement("button") as HTMLButtonElement;
         btn.textContent = `report`;
-        btn.dataset.index = `${i}`;
+        btn.dataset.email = `${users[i]?.email}`;
         btn.classList.add('reportBtn');
 
 
@@ -54,18 +54,17 @@ tableBody?.addEventListener("click",(e)=>{
     e.preventDefault();
 
     const btn = e.target as HTMLButtonElement;
-    const index = Number(btn.dataset.index);
 
     const users = getData<User[]>("users");
 
     if(users===undefined || users===null)
         return;
 
-    console.log(users[index]);
+    const index = users.findIndex(user=> user.email===btn.dataset.email);
      alert(`
         Name : ${users[index]?.fullName}
 
-        Question Attempted : ${users[index]?.result?.numberOfQuestions! - (users[index]?.result?.correct! + users[index]?.result?.wrong! ) || "test Not Attempted yet"}
+        Question Unattempted : ${users[index]?.result?.numberOfQuestions! - (users[index]?.result?.correct! + users[index]?.result?.wrong! ) || "test Not Attempted yet"}
         correct : ${users[index]?.result?.correct ?? "test Not Attempted yet"}
         wrong : ${users[index]?.result?.wrong ?? "test Not Attempted yet"}
         total question : ${users[index]?.result?.numberOfQuestions ?? "test Not Attempted yet"}

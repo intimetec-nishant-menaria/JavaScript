@@ -1,8 +1,8 @@
 import { getData, setData } from "../utils/localStorage.js";
-import {isUserLogin} from "./auth.js"
+import {ensureUserLoggedIn} from "./auth.js"
 import type { User } from "../types/user.js";
 
-isUserLogin();
+ensureUserLoggedIn();
 
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ ;
@@ -14,10 +14,10 @@ redirectToRegister?.addEventListener("click", (e)=>{
     location.href = "/QuizApp/HTML Pages/register.html";   
 })
 
-loginBtn?.addEventListener("click",(e)=>{
+loginBtn?.addEventListener("click",async (e)=>{
     e.preventDefault();
     const email  = (document.getElementById("email") as HTMLInputElement ).value;
-    if( !emailRegex.test(email) ){
+    if( !emailRegex.test(email) || email.trim()==="" ){
         alert("Enter a valid email");
         return
     }
@@ -28,35 +28,50 @@ loginBtn?.addEventListener("click",(e)=>{
         alert("passwords is required");
         return
     }
+    
+    const user:User | undefined =await validateCredentials(email,password);
 
+    if(user){
+        setData<User>("user",user);
+        ensureUserLoggedIn();
+    }else{
+        alert("invalid credentials");
+        return;
+    }
+})
+
+async function validateCredentials(email : string , password : string) : Promise<User | undefined>{
     const Users = getData<User[]>("users");
 
     if(Users){
         for(let user of Users){
             if(user.email === email){
                 if(user.password === password){
-                    setData("user", user);
-                    isUserLogin();
-                    return;
+                    return user;
+                }else{
+                    return undefined;
                 }
             }
         }
     }
+    return await validateAdminCredentials(email ,password);
+}
 
-    fetch("/QuizApp/assets/data/users.json").then(response=>{
+
+async function validateAdminCredentials(email:string , password:string){
+    
+    return await fetch("/QuizApp/assets/data/users.json").then(response=>{
         return response.json();
     }).then( (admins:User[] )=>{
         for(let admin of admins ){
             if(admin.email === email){
                 if(admin.password === password){
-                    setData("user",admin);
-                    isUserLogin();
-                    return;
+                    return admin;
                 }else{
                     alert("Invalid email or password");
-                    return;
+                    return undefined;
                 }
             }
         }
     })
-})
+}

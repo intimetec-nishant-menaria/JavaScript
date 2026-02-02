@@ -1,4 +1,4 @@
-import { isUserLogin } from "../auth/auth.js";
+import { ensureUserLoggedIn } from "../auth/auth.js";
 import type { User } from "../types/user.js";
 import { getData, removeData } from "../utils/localStorage.js";
 
@@ -7,7 +7,7 @@ const quizBtn = document.getElementById("quizBtn") as HTMLButtonElement ;
 
 logoutBtn?.addEventListener("click",()=>{
     removeData("user");
-    isUserLogin();
+    ensureUserLoggedIn();
 })
 
 quizBtn?.addEventListener("click",()=>{
@@ -23,7 +23,7 @@ function displayResult(){
     const user = getData<User>("user");
 
     if(!user){
-        isUserLogin();
+        ensureUserLoggedIn();
         return;
     }
 

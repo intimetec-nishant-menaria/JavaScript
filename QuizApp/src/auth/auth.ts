@@ -2,7 +2,7 @@ import type { User } from "../types/user.js";
 import { getData } from "../utils/localStorage.js";
 
 
-export function isUserLogin(){
+export function ensureUserLoggedIn(){
     const user= getData<User>("user");
 
     const currentPath = location.pathname;

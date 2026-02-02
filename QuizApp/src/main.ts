@@ -1,3 +1,3 @@
-import { isUserLogin } from "./auth/auth.js";
+import { ensureUserLoggedIn } from "./auth/auth.js";
 
-isUserLogin();
+ensureUserLoggedIn();

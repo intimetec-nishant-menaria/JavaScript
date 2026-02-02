@@ -1,4 +1,4 @@
-import { isUserLogin } from "../auth/auth.js";
+import { ensureUserLoggedIn } from "../auth/auth.js";
 import type { answer, Question } from "../types/question.js";
 import type { User } from "../types/user.js";
 import { getData, removeData, setData } from "../utils/localStorage.js";
@@ -12,17 +12,22 @@ const submitBtn = document.querySelector("#submitBtn") as HTMLButtonElement;
 let currentQuesiton = getData<number>("currentQuestion") ?? 0;
 let answers: answer[] = getData<answer[]>("answers") ?? [];
 
-async function fetchQuestions(){
+function fetchQuestions(){
 
     if(!questions){
-        try{
-            const response = await fetch("/QuizApp/assets/data/questions.json");
-            questions = await response.json() as Question[]; 
+        // const response = await fetch("/QuizApp/assets/data/questions.json");
+        // questions = await response.json() as Question[]; 
+        // shuffleQuestions();
+        // setData("questions", questions);
+        fetch("/QuizApp/assets/data/questions.json").then(responce=>{
+            return responce.json();
+        }).then(result=>{
+            questions = result;
             shuffleQuestions();
-            setData("questions", questions);
-        }catch(error){
+            setData("questions",questions);
+        }).catch(error=>{
             console.log(error);
-        }
+        })
     }
     displayQuestion();
 }
@@ -111,20 +116,25 @@ function displayQuestion(){
 
 prevBtn?.addEventListener("click" ,(e)=>{
     e.preventDefault();
-    currentQuesiton--;
-    displayQuestion();
+    if(currentQuesiton>0){
+        currentQuesiton--;
+        displayQuestion();
+    }
 })
 
 nextBtn?.addEventListener("click",(e)=>{
     e.preventDefault();
-    currentQuesiton++;
-    displayQuestion();
+    if(!questions)
+        return;
+    if(currentQuesiton < questions?.length){
+        currentQuesiton++;
+        displayQuestion();
+    }
 })
 
 
 submitBtn?.addEventListener("click",(e)=>{
     e.preventDefault();
-    console.log(answers);
     if(!confirm("you want to submit your test ?")){
         return;
     }
@@ -146,7 +156,7 @@ submitBtn?.addEventListener("click",(e)=>{
 
     const user = getData<User>("user");
     if(!user){
-        isUserLogin();
+        ensureUserLoggedIn();
         return;
     }
 

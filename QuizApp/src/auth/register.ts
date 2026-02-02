@@ -1,13 +1,13 @@
 import type { User } from "../types/user.js";
 import { getData, setData } from "../utils/localStorage.js";
-import {isUserLogin} from "./auth.js";
+import {ensureUserLoggedIn} from "./auth.js";
 
 
 const Users = getData<User[]>("Users") || [];
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ ;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-isUserLogin();
+ensureUserLoggedIn();
 
 const redirectToLogin = document.querySelector("#redirectToLogin") as HTMLButtonElement;
 const registerBtn = document.querySelector("#registerBtn") as HTMLButtonElement;
