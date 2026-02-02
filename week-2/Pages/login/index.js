@@ -5,7 +5,7 @@ const registerBtn = document.getElementById("RegisterBtn");
 const loginBtn = document.getElementById("loginBtn");
 
 
-function isUserLogin(){
+function redirectIfLoggedIn(){
     const user = JSON.parse(localStorage.getItem("user"));
     if(user){
          if(user.role === "admin"){
@@ -17,56 +17,79 @@ function isUserLogin(){
 }
 
 
-loginBtn.addEventListener("click",(e)=>{
+loginBtn?.addEventListener("click",(e)=>{
     e.preventDefault();
     const email = String(document.getElementById("email").value);
     const password = document.getElementById("password").value;
 
-    if( !emailRegex.test(email) ){
+    if( !emailRegex.test(email) || email.trim() === "" ){
         alert("Please Enter a Valid Email.");
         return;
     }
 
-    for(let user of Users){
-        if(user.email === email){
-            if(user.password === password){
-                console.log("login Successfully");
-                localStorage.setItem("user", JSON.stringify(user));
-                location.href = "../student_Dashboard/studentDashboard.html";
-                return;
-            }else{
-                alert("Invalid credentials");
-                return;
-            }
-        }
+    if(password.trim() === ""){
+        alert(`password should not be empty`);
+        return;
     }
 
-    fetch("../../data/users.json").then(response=>{
-        return response.json();
-    }).then((admins)=>{
-        for(let admin of admins){
-            if(admin.email === email){
-                if(admin.password === password){
-                    console.log("login Successfully");
-                    localStorage.setItem("user", JSON.stringify(admin));
-                    location.href = "../admin_Dashboard/adminDashboard.html";
-                    return;
-                }else{
-                    alert("Invalid credentials");
-                    return;
-                }
-            }
+    
+    validateCredentials(email , password).then(user=>{
+        if(!user){
+            alert("invalid credential");
+            return;
+        }
+        localStorage.setItem("user", JSON.stringify(user));
+        if(user?.role === "student"){
+            location.href = "../student_Dashboard/studentDashboard.html";
+        }else if(user?.role === "admin"){
+            location.href = "../admin_Dashboard/adminDashboard.html";
         }
     })
-    
 
-    // alert("No user is registered with given email");
 
 })
 
-registerBtn.addEventListener("click",(e)=>{
+function validateCredentials(email , password){
+    
+    return new Promise( (resolve , reject)=>{
+        for(let user of Users){
+            if(user.email === email){
+                if(user.password === password){
+                    resolve(user);
+                }
+            }
+        }
+        validateAdminCredentials(email , password).then( admin=>{
+            resolve(admin);
+        }).catch(()=>resolve(undefined));
+    })
+
+}
+
+function validateAdminCredentials(email , password){
+
+        return fetch("../../data/users.json").then(response=>{
+            return response.json();
+        }).then((admins)=>{
+            for(let admin of admins){
+                if(admin.email === email){
+                    if(admin.password === password){
+                        return admin;
+                    }
+                }
+            }
+        }).catch(error=>{
+            console.log(error);
+        })
+}
+
+registerBtn?.addEventListener("click",(e)=>{
     e.preventDefault();
     location.href = "../register/register.html";
 })
 
-isUserLogin();
+function init(){
+    redirectIfLoggedIn();
+}
+
+init();

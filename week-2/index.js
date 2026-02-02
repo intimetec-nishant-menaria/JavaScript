@@ -1,8 +1,8 @@
-function isUserLogin(){
+function ensureUserLoggedIn(){
     const user = JSON.parse(localStorage.getItem("user"));
 
     if(!user){
-        location.href = "./Pages/register/register.html";
+        location.href = "./Pages/login/login.html";
     }else{
         if(user.role === "admin"){
             location.href = "./Pages/admin_Dashboard/adminDashboard.html";
@@ -39,5 +39,5 @@ function isUserLogin(){
 // }
 // loadDefaultUsers();
 
-isUserLogin();
+ensureUserLoggedIn();
 

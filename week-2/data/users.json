@@ -1,6 +1,6 @@
 [
     {
-        "username":"admin",
+        "fullName":"admin",
         "email":"admin@gmail.com",
         "password":"admin@123",
         "role":"admin"

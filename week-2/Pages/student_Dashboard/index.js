@@ -1,8 +1,7 @@
-
 const logoutBtn = document.getElementById("logoutBtn");
 const quizBtn = document.getElementById("quizBtn");
 
-function islogIn(){
+function ensureUserLoggedIn(){
     const user = localStorage.getItem("user");
 
     if(!user){
@@ -10,12 +9,12 @@ function islogIn(){
     }
 }
 
-logoutBtn.addEventListener("click",()=>{
+logoutBtn?.addEventListener("click",()=>{
     localStorage.removeItem("user");
-    islogIn();
+    ensureUserLoggedIn();
 })
 
-quizBtn.addEventListener("click",()=>{
+quizBtn?.addEventListener("click",()=>{
     
     if(confirm("are You sure You want to start the test ?")){
         location.href = "../quiz_Page/quizPage.html";
@@ -25,20 +24,21 @@ quizBtn.addEventListener("click",()=>{
 function displayPreviousMarks(){
     const user = JSON.parse(localStorage.getItem("user"));
 
-    islogIn();
+    ensureUserLoggedIn();
 
     const questionNotAttempted = document.getElementById("questionsNotAttempted");
     const correctAttempted = document.getElementById("correctlyAttempted");
     const wrongAttempted = document.getElementById("wrongAttempted");
     const totalMarks = document.getElementById("totalMarks");
 
-    console.log(user.questionLength);
-    questionNotAttempted.innerText = user.questionLength - (user.correct + user.wrong ) || "Test Not Attempted yet";
+    questionNotAttempted.innerText = (user.questionLength - (user.correct + user.wrong )) || "Test Not Attempted yet";
     correctAttempted.innerText = user.correct ?? "Test Not Attempted yet";
     wrongAttempted.innerText = user.wrong ?? "Test Not Attempted yet";
     totalMarks.innerText = user.correct ?? "Test Not Attempted yet";
 }
+function init(){
+    displayPreviousMarks();
+    ensureUserLoggedIn();
+}
 
-displayPreviousMarks();
-
-islogIn();
+init();

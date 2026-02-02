@@ -1,23 +1,23 @@
 const question = document.querySelector(".question");
-const optionBtns = document.querySelectorAll(".options button")
+const optionBtns = document.querySelectorAll(".options button");
 const options = document.querySelector(".options");
 const answerSheet = JSON.parse(localStorage.getItem("answers")) || [];
-let questionsList = JSON.parse(localStorage.getItem("questions")) || [];
+let questionsList = JSON.parse(localStorage.getItem("questions")) || loadQuestions();
 let currentQuestion = Number(localStorage.getItem("Cquestion")) || 0;
 const submitBtn = document.getElementById("submitBtn");
 const nextBtn = document.getElementById("nextbtn");
 const prevBtn = document.getElementById("previousBtn");
 
-const questionNUmber = document.querySelector(".questionNumber");
+const questionNumber = document.querySelector(".questionNumber");
 
-function isUserLogin(){
+function redirectIfLoggedIn(){
     const user = JSON.parse(localStorage.getItem("user"));
     if(!user){
         location.href = "../login/login.html";
     }
 }
 
-function shuffelQuestions(questionsList){
+function shuffleQuestions(questionsList){
 
     for(let i = 0 ; i<questionsList.length ; i++ ){
         let j = (Math.floor(Math.random() * (i+1))) % questionsList.length;
@@ -25,10 +25,10 @@ function shuffelQuestions(questionsList){
     }
 }
 
-options.addEventListener("click",(e)=>{
+options?.addEventListener("click",(e)=>{
     e.preventDefault();
 
-    if(e.target.tagName != "BUTTON")    return;
+    if(e.target.tagName !== "BUTTON")    return;
 
     optionBtns.forEach( btn => {
         btn.classList.remove("btnActivate");
@@ -40,15 +40,17 @@ options.addEventListener("click",(e)=>{
 })
 
 
-async function loadQuestions(){
-    const responce = await fetch("../../data/quiz.json");
-    const result = await responce.json();
+function loadQuestions(){
 
-    localStorage.setItem("questions", JSON.stringify(result));
-    localStorage.setItem("Cquestion","0");
-    questionsList = result;
-    shuffelQuestions(questionsList);
-    loadQuestion();
+    fetch("../../data/quiz.json").then(response=>{
+        return response.json();
+    }).then(result=>{
+        localStorage.setItem("questions", JSON.stringify(result));
+        localStorage.setItem("Cquestion","0");
+        questionsList = result;
+        shuffleQuestions(questionsList);
+        loadQuestion();
+    })
 }
 
 function loadQuestion(){
@@ -68,7 +70,7 @@ function loadQuestion(){
         nextBtn.style.display = "block";
     }
 
-    questionNUmber.textContent = `${currentQuestion + 1 }/10`;
+    questionNumber.textContent = `${currentQuestion + 1 }/${questionsList.length}`;
 
 
     question.textContent = questionsList[currentQuestion].question ;
@@ -84,24 +86,29 @@ function loadQuestion(){
     localStorage.setItem("Cquestion",currentQuestion);
 }
 
-nextBtn.addEventListener("click",(e)=>{
+nextBtn?.addEventListener("click",(e)=>{
     e.preventDefault();
-    currentQuestion++;
-    optionBtns.forEach( btn => {
+    optionBtns?.forEach( btn => {
         btn.classList.remove("btnActivate");
     });
-    loadQuestion();
-    localStorage.setItem("answers",JSON.stringify(answerSheet));
+
+    if(currentQuestion < questionsList.length){
+        currentQuestion++;
+        loadQuestion();
+        localStorage.setItem("answers",JSON.stringify(answerSheet));
+    }
 })
 
-prevBtn.addEventListener("click",(e)=>{
+prevBtn?.addEventListener("click",(e)=>{
     e.preventDefault();
-    currentQuestion--;
-    loadQuestion();
-    localStorage.setItem("answers",JSON.stringify(answerSheet));
+    if(currentQuestion>0){
+        currentQuestion--;
+        loadQuestion();
+        localStorage.setItem("answers",JSON.stringify(answerSheet));
+    }
 })
 
-submitBtn.addEventListener("click",(e)=>{
+submitBtn?.addEventListener("click",(e)=>{
     e.preventDefault();
     
     if(confirm("Are you sure you want to Submit ?")){
@@ -109,7 +116,7 @@ submitBtn.addEventListener("click",(e)=>{
         let wrongAnswers = 0;
 
         const answers = JSON.parse(localStorage.getItem("answers"));
-        for(let i = 0 ; i < answers.length ; i++){
+        for(let i = 0 ; i < answers?.length ; i++){
             if(answers[i] === questionsList[i].options[questionsList[i].correctAnswerIndex]){
                 correctAnswers++;
             }else if( answers[i]!== null ){
@@ -128,16 +135,18 @@ submitBtn.addEventListener("click",(e)=>{
 
         localStorage.setItem("user",JSON.stringify(user));
 
-        const Users = JSON.parse(localStorage.getItem("users"));
+        const Users = JSON.parse(localStorage.getItem("users")) || [];
 
-        for(let i = 0 ; i < Users.length ; i++){
-            if(Users[i].email === user.email){
-                Users[i] = user;
-                localStorage.setItem("users",JSON.stringify(Users));
-                break;
-            }
+        let index = Users?.findIndex( User => User.email === user.email );
+
+        if(index === -1){
+            Users.push(user);
+        }else{    
+            Users[index] = user;
         }
         
+        localStorage.setItem("users",JSON.stringify(Users));
+
         if(user.role === "student"){
             location.href = "../student_Dashboard/studentDashboard.html";
         }else{
@@ -146,5 +155,9 @@ submitBtn.addEventListener("click",(e)=>{
     }
 })
 
-isUserLogin();
-loadQuestions();
+function init(){
+    redirectIfLoggedIn();
+    loadQuestion();
+}
+
+init();

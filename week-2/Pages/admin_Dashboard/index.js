@@ -1,42 +1,50 @@
-
 const Users = JSON.parse(localStorage.getItem("users")) || [];
 
 const logoutBtn = document.getElementById("logoutBtn");
 const quizBtn = document.getElementById("startTestBtn");
 const table = document.getElementById("tableBody");
 
-function islogIn(){
-    const user = localStorage.getItem("user");
+
+function ensureUserLoggedIn(){
+    const user = JSON.parse(localStorage.getItem("user"));
 
     if(!user){
         location.href = "../login/login.html";
     }
 }
 
-function displayStudent(){
+function clearTableContent(){
+    let tableRows = table.children;
 
-    let counter =1;
+    for(let row of tableRows){
+        row.remove();   
+    }
+}
+
+function displayStudent( callBackFunction ){
+
+    callBackFunction();
+
+    let counter = 1;
     for(let user of Users){
             const tr = document.createElement("tr");
 
             const reportBtn = document.createElement("button");
             reportBtn.innerText = "Report";
             reportBtn.classList.add("reportBtn");
-            reportBtn.dataset.index = counter;
+            reportBtn.dataset.email = user.email ;
 
             const trIndex = document.createElement("td");
             trIndex.innerText = counter++;
 
             const trName = document.createElement("td");
-            trName.innerText = user.username;
+            trName.innerText = user.fullName;
 
             const trEmail = document.createElement("td");
             trEmail.innerText = user.email;
 
             const trTotalMarks = document.createElement("td");
             trTotalMarks.innerText = user.correct ?? "Test Not Attempted";
-
-            
 
             tr.append(trIndex , trName , trEmail , trTotalMarks , reportBtn);
 
@@ -45,23 +53,33 @@ function displayStudent(){
     }
 }
 
-quizBtn.addEventListener("click",()=>{
+quizBtn?.addEventListener("click",()=>{
     
     if(confirm("are You sure You want to start the test ?")){
         location.href = "../quiz_Page/quizPage.html";
     }
 })
 
-logoutBtn.addEventListener("click",()=>{
+logoutBtn?.addEventListener("click",()=>{
     localStorage.removeItem("user");
-    islogIn();
+    ensureUserLoggedIn();
 })
 
-table.addEventListener("click",(e)=>{
+table?.addEventListener("click",(e)=>{
     e.preventDefault();
 
-    const user = Users[Number(e.target.dataset.index)-1];
-    console.log(user);
+    if(e.target.tagName !== "BUTTON"){
+        return;
+    }
+
+    const index = Number(Users.findIndex( user => user.email === e.target.dataset.email ));
+
+    if(index === -1){
+        alert(`user not found`);
+        return;
+    }
+
+    const user = Users[index];
 
     if(!user){
         alert("test not attempted");
@@ -69,9 +87,9 @@ table.addEventListener("click",(e)=>{
     }
 
     alert(`
-        Name : ${user.username}
+        Name : ${user.fullName}
 
-        Question Attempted : ${user.questionLength - (user.correct + user.wrong ) ?? "test Not Attempted yet"}
+        Question Unattempted : ${(user.questionLength - (user.correct + user.wrong ) )?? "test Not Attempted yet"}
         correct : ${user.correct ?? "test Not Attempted yet"}
         wrong : ${user.wrong ?? "test Not Attempted yet"}
         total question : ${user.questionLength ?? "test Not Attempted yet"}
@@ -80,6 +98,10 @@ table.addEventListener("click",(e)=>{
         `)
 })
 
-islogIn();
+function init(){
+    ensureUserLoggedIn();
+    displayStudent(  clearTableContent );
+}
 
-displayStudent();
+init();
+
