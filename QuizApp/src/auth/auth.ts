@@ -8,18 +8,19 @@ export function ensureUserLoggedIn(){
     const currentPath = location.pathname;
 
     if(!user){
-        if( !(currentPath.endsWith("login.html")  || currentPath.endsWith("register.html") ) )
-        location.href = "/QuizApp/HTML Pages/login.html"
+        if( !(currentPath.endsWith("login.html")  || currentPath.endsWith("register.html") ) ){
+            location.href = "../../HTML_Pages/login.html"
+        }
     }else{
 
         switch(user.role){
             case "student":{
-                location.href = "/QuizApp/HTML Pages/studentDashBoard.html"
+                location.href = "../../HTML_Pages/studentDashBoard.html"
                 break;
             }
 
             case "admin" :{
-                location.href = "/QuizApp/HTML Pages/adminDashBoard.html"
+                location.href = "../../HTML_Pages/adminDashBoard.html"
                 break;
             }
         }

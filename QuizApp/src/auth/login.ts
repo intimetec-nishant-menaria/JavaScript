@@ -11,13 +11,13 @@ const loginBtn = document.getElementById("loginBtn") as HTMLButtonElement;
 
 redirectToRegister?.addEventListener("click", (e)=>{
     e.preventDefault();
-    location.href = "/QuizApp/HTML Pages/register.html";   
+    location.href = "../../HTML_Pages/register.html";   
 })
 
 loginBtn?.addEventListener("click",async (e)=>{
     e.preventDefault();
     const email  = (document.getElementById("email") as HTMLInputElement ).value;
-    if( !emailRegex.test(email) || email.trim()==="" ){
+    if( !emailRegex.test(email)){
         alert("Enter a valid email");
         return
     }
@@ -60,7 +60,7 @@ async function validateCredentials(email : string , password : string) : Promise
 
 async function validateAdminCredentials(email:string , password:string){
     
-    return await fetch("/QuizApp/assets/data/users.json").then(response=>{
+    return await fetch("../../assets/data/users.json").then(response=>{
         return response.json();
     }).then( (admins:User[] )=>{
         for(let admin of admins ){

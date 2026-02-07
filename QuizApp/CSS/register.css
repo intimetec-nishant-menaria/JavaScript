@@ -1,82 +1,142 @@
 body {
-  margin: 0px;
-  padding: 0px;
-  height: 100vh;
-  width: 100vw;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: black;
-  background-image: url("/QuizApp/assets/images/bg-image.jpg");
-  background-size: cover;
-  font-family: sans-serif;
+  font-family: "Segoe UI", sans-serif;
+  background: url("../assets/images/bg-image.jpg") center/cover no-repeat;
 }
+
 .main {
   width: 40vw;
-  height: 70vh;
+  max-width: 520px;
+  min-width: 320px;
+  padding: 30px 0;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   display: flex;
   justify-content: center;
-  border: 2px solid transparent;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
 }
-.main > form {
+
+.login {
+  width: 85%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 70%;
-  height: 100%;
+  gap: 14px;
   text-align: center;
 }
 
-.login > input ::placeholder {
-  color: white;
-}
-.login input {
-  margin-top: 10px;
-  width: 95%;
-  height: 30px;
-  border: 2px solid black;
-  background-color: transparent;
-  opacity: 0.75;
-  border-radius: 15px;
-  padding-left: 10px;
+.title {
+  margin: 0;
+  font-size: 28px;
 }
 
-.login button:hover {
-  background-color: #0076b6cc;
+.subtitle {
+  margin: 0 0 10px;
+  font-size: 14px;
+  opacity: 0.75;
+}
+
+.login input {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 22px;
+  border: 1.5px solid rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.25);
+  font-size: 14px;
+  outline: none;
+  transition: 0.25s ease;
+}
+
+.login input::placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.login input:focus {
+  border-color: #0077b6;
+  box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.25);
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .fullName {
   display: flex;
+  gap: 10px;
 }
 
-.fullName input {
-  margin: 2px;
-  width: 45%;
-}
 .buttons {
-  width: 100%;
-  height: 100%;
   display: flex;
-  justify-content: space-evenly;
+  gap: 12px;
+  margin-top: 15px;
 }
-.buttons div {
-  width: 49%;
-}
+
 .buttons button {
-  width: 100%;
-  margin-top: 10px;
-  height: 40px;
-  border-radius: 15px;
-  border: 2px solid black;
-  background-color: #0077b6;
-  color: black;
-  font-size: medium;
-  font-weight: bold;
-}
-.buttons button:hover {
+  flex: 1;
+  height: 44px;
+  border-radius: 22px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.primary {
+  background: linear-gradient(135deg, #0077b6, #0096c7);
+  color: #fff;
+}
+
+.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 119, 182, 0.45);
+}
+
+.secondary {
+  background: transparent;
+  border: 2px solid #0077b6;
+  color: #0077b6;
+}
+
+.secondary:hover {
+  background: rgba(0, 119, 182, 0.1);
+}
+.email-pass {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.email-pass input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .main {
+    width: 75vw;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 12px;
+  }
+
+  .main {
+    width: 95vw;
+  }
+
+  .fullName {
+    flex-direction: column;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
 }

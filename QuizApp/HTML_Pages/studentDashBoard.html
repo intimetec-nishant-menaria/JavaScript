@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>student DashBoard</title>
+    <link rel="stylesheet" href="../CSS/studentDashBoard.css">
+</head>
+<body>
+    <div>
+        <h1>Student Dashborad</h1>
+    </div>
+    <button id="logoutBtn">LogOut</button>
+    <div class="main">
+       <div class="studentDetails">
+        <section>
+            Question Not Attempted:
+            <p id="questionsNotAttempted"></p>
+        </section>
+
+        <section>
+            Correctly Attempted:
+            <p id="correctlyAttempted"></p>
+        </section>
+
+        <section>
+            Wrong Attempted:
+            <p id="wrongAttempted"></p>
+        </section>
+
+        <section>
+            Total Marks:
+            <p id="totalMarks"></p>
+        </section>
+        </div>
+
+        <div>
+            <button id="quizBtn">
+                Start Quiz
+            </button>
+        </div>
+    </div>
+    <script src="../dist/student/student.js" type="module"></script>
+</body>
+</html>

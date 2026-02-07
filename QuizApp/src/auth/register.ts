@@ -3,7 +3,7 @@ import { getData, setData } from "../utils/localStorage.js";
 import {ensureUserLoggedIn} from "./auth.js";
 
 
-const Users = getData<User[]>("Users") || [];
+const Users = getData<User[]>("users") || [];
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ ;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -14,7 +14,7 @@ const registerBtn = document.querySelector("#registerBtn") as HTMLButtonElement;
 
 redirectToLogin?.addEventListener("click", (e)=>{
     e.preventDefault();
-    location.href = "/QuizApp/HTML Pages/login.html";   
+    location.href = "../../HTML_Pages/login.html";   
 })
 
 
@@ -63,6 +63,7 @@ registerBtn?.addEventListener("click",(e)=>{
     }
 
     Users.push(newUser);
+    console.log(Users);
     setData("users",Users);
-    location.href = "/QuizApp/HTML Pages/login.html"
+    location.href = "../../HTML_Pages/login.html"
 })

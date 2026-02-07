@@ -7,14 +7,14 @@ const quizBtn = document.getElementById("quizBtn") as HTMLButtonElement ;
 
 logoutBtn?.addEventListener("click",()=>{
     removeData("user");
-    ensureUserLoggedIn();
+    location.replace("../../HTML_Pages/login.html");
 })
 
 quizBtn?.addEventListener("click",()=>{
     if(!confirm("Are you sure you want to start the test?")){
         return;
     }
-    location.href = "/QuizApp/HTML Pages/quizPage.html";
+    location.replace( "../../HTML_Pages/quizPage.html");
 });
 
 

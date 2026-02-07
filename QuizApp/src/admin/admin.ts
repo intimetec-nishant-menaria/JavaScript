@@ -8,11 +8,11 @@ const tableBody = document.querySelector("#tableBody") as HTMLElement;
 
 logoutBtn?.addEventListener("click",()=>{
     removeData("user");
-    ensureUserLoggedIn();
+    location.replace("../../HTML_Pages/login.html");
 })
 
 testBtn?.addEventListener("click" , (e)=>{
-    location.href = "/QuizApp/HTML pages/quizPage.html";
+    location.href = "../../HTML_Pages/quizPage.html";
 })
 
 function displayUsers(){
@@ -37,13 +37,13 @@ function displayUsers(){
         email.textContent = users[i]?.email ?? "";
 
         const totalMarks = document.createElement("td") as HTMLElement;
-        totalMarks.textContent = String(users[i]?.result?.correct) ?? "Test Not Attempted";
+        console.log(users[i]?.result?.correct);
+        totalMarks.textContent = users[i]?.result?.correct === undefined ? "Test Not Attempted" : String(users[i]?.result?.correct) ;
 
         const btn = document.createElement("button") as HTMLButtonElement;
         btn.textContent = `report`;
         btn.dataset.email = `${users[i]?.email}`;
         btn.classList.add('reportBtn');
-
 
         tr.append(sNo,name,email,totalMarks,btn);
         tableBody.append(tr);
@@ -54,6 +54,10 @@ tableBody?.addEventListener("click",(e)=>{
     e.preventDefault();
 
     const btn = e.target as HTMLButtonElement;
+
+    if(btn.tagName !== "BUTTON"){
+        return;
+    }
 
     const users = getData<User[]>("users");
 

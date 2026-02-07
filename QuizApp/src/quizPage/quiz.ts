@@ -12,14 +12,14 @@ const submitBtn = document.querySelector("#submitBtn") as HTMLButtonElement;
 let currentQuesiton = getData<number>("currentQuestion") ?? 0;
 let answers: answer[] = getData<answer[]>("answers") ?? [];
 
-function fetchQuestions(){
+async function fetchQuestions(){
 
     if(!questions){
         // const response = await fetch("/QuizApp/assets/data/questions.json");
         // questions = await response.json() as Question[]; 
         // shuffleQuestions();
         // setData("questions", questions);
-        fetch("/QuizApp/assets/data/questions.json").then(responce=>{
+        await fetch("../../assets/data/questions.json").then(responce=>{
             return responce.json();
         }).then(result=>{
             questions = result;
@@ -184,9 +184,9 @@ submitBtn?.addEventListener("click",(e)=>{
     removeData("answers");
     
     if(user.role === "student"){
-        location.href = "/QuizApp/HTML Pages/studentDashBoard.html"
+        location.href = "../../HTML_Pages/studentDashBoard.html"
     }else{
-        location.href = "/QuizApp/HTML Pages/adminDashBoard.html"
+        location.href = "../../HTML_Pages/adminDashBoard.html"
     }
 })
 
