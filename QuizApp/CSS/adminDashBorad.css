@@ -1,0 +1,194 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+  background: #f4f6f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.heading {
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  background: #2c3e50;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.heading h1 {
+  margin: 0;
+  font-size: 26px;
+}
+
+#logoutBtn {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  width: 100px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background-color: #e74c3c;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#logoutBtn:hover {
+  background-color: #c0392b;
+}
+
+#startTestBtn {
+  margin: 20px 0;
+  height: 44px;
+  width: 200px;
+  border-radius: 10px;
+  border: none;
+  background-color: #27ae60;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#startTestBtn:hover {
+  background-color: #219150;
+}
+
+.mainDiv {
+  width: 90vw;
+  max-width: 1200px;
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.studenth1 h2 {
+  margin: 10px 0 20px;
+  font-size: 22px;
+}
+
+.table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 650px;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+thead {
+  background-color: #34495e;
+}
+
+thead th {
+  color: #fff;
+  padding: 12px;
+  text-align: left;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+tbody td {
+  padding: 12px;
+  font-size: 14px;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+  background-color: #f2f4f6;
+}
+
+.active {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.inactive {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.reportBtn {
+  height: 32px;
+  width: 110px;
+  background-color: #2980b9;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.reportBtn:hover {
+  background-color: #1f6391;
+}
+
+@media (max-width: 768px) {
+
+  .heading h1 {
+    font-size: 22px;
+  }
+
+  #startTestBtn {
+    width: 90%;
+    max-width: 260px;
+  }
+
+  table {
+    min-width: 600px;
+  }
+
+  thead th,
+  tbody td {
+    font-size: 13px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  body {
+    padding-bottom: 20px;
+  }
+
+  .heading h1 {
+    font-size: 18px;
+  }
+
+  #logoutBtn {
+    width: 80px;
+    height: 30px;
+    font-size: 12px;
+    top: 12px;
+    right: 12px;
+  }
+
+  #startTestBtn {
+    height: 42px;
+    font-size: 14px;
+  }
+
+  table {
+    min-width: 500px;
+  }
+
+  .reportBtn {
+    width: 90px;
+    height: 30px;
+    font-size: 12px;
+  }
+}
